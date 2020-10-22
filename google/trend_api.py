@@ -24,7 +24,7 @@ import json
 import requests
 
 
-def get_token(keyword):
+def get_token(keyword, country):
     headers = {
         'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) '
                       'Chrome/80.0.3987.163 Safari/537.36',
@@ -35,31 +35,44 @@ def get_token(keyword):
                   'referral)|utmcmd=referral|utmcct=/docs/qxW86VTXr8DK6HJX; __utmt=1; '
                   '__utmb=10102256.9.9.1586398779015; '
                   'ANID=AHWqTUlRutPWkqC3UpC_-5XoYk6zqoDW3RQX5ePFhLykky73kQ0BpL32ATvqV3O0; CONSENT=WP.284bc1; '
-                  'NID=202=xLozp9-VAAGa2d3d9-cqyqmRjW9nu1zmK0j50IM4pdzJ6wpWTO_Z49JN8W0s1OJ8bySeirh7pSMew1WdqRF890iJLX4HQwwvVkRZ7zwsBDxzeHIx8MOWf27jF0mVCxktZX6OmMmSA0txa0zyJ_AJ3i9gmtEdLeopK5BO3X0LWRA; 1P_JAR=2020-4-9-2 '
+                  'NID=202=xLozp9-VAAGa2d3d9'
+                  '-cqyqmRjW9nu1zmK0j50IM4pdzJ6wpWTO_Z49JN8W0s1OJ8bySeirh7pSMew1WdqRF890iJLX4HQwwvVkRZ7zwsBDxzeHIx8MOWf27jF0mVCxktZX6OmMmSA0txa0zyJ_AJ3i9gmtEdLeopK5BO3X0LWRA; 1P_JAR=2020-4-9-2 '
     }
     url = 'https://trends.google.com/trends/api/explore?hl=zh-CN&tz=-480&req={{"comparisonItem":[{{"keyword":"{}",' \
-          '"geo":"","time":"now 7-d"}}],"category":0,"property":""}}&tz=-480'.format(keyword)
+          '"geo":"{}","time":"now 7-d"}}],"category":0,"property":""}}&tz=-480'.format(keyword, country)
+    print(url)
     r = requests.get(url, headers=headers)
+    # print(r)
     data = json.loads(r.text[5:])
+    # print(data['widgets'][0])
     req = data['widgets'][0]['request']
     token = data['widgets'][0]['token']
     result = {'req': req, 'token': token}
+    print("GET:", token)
     return result
 
 
-def google(keyword):
+def google(keyword, country):
     """谷歌指数"""
-    info = get_token(keyword)
+    info = get_token(keyword, country)
     req = info['req']
+    # print(type(req))
     token = info['token']
+    print("google:", token)
     # print("REQ:", req)
+    # print(str(req).split('geo\': {'))
+    # country = str(req).split("geo': {")
+    # add_country = country[0] + "geo': {" + "\"country\":\"AR\"" + country[1]
+    # req['comparisonItem'][0]['geo'] = 'country\':\'AR'
     # print("TOKEN:", token)
+    # print(req)
     url = 'https://trends.google.com/trends/api/widgetdata/multiline?hl=zh-CN&tz=-480&req={}&token={}&tz=-480'.format(
         req, token)
+    # print(url.replace("\"", "'"))
     r = requests.get(url)
     if r.status_code == 200:
         data = json.loads(r.text.encode().decode('unicode_escape')[6:])['default']['timelineData']
-        print(data)
+        # print(data)
         for data_e in data:
             timestamp = int(data_e['time']) * 1000
             vis_date = data_e['formattedTime']
@@ -68,4 +81,7 @@ def google(keyword):
             print(vis_date, timestamp, value, keyword)
 
 
-google("iphone 12")
+if __name__ == '__main__':
+    coun = "AL"  # 国家
+    key = "iphone 12"  # 搜索关键字
+    google(key, coun)
