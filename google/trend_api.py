@@ -19,9 +19,12 @@
                   ┃┫┫  ┃┫┫
                   ┗┻┛  ┗┻┛
 """
+import csv
 import json
 
 import requests
+
+dict_lst = []
 
 
 def get_token(keyword, country):
@@ -39,8 +42,8 @@ def get_token(keyword, country):
                   '-cqyqmRjW9nu1zmK0j50IM4pdzJ6wpWTO_Z49JN8W0s1OJ8bySeirh7pSMew1WdqRF890iJLX4HQwwvVkRZ7zwsBDxzeHIx8MOWf27jF0mVCxktZX6OmMmSA0txa0zyJ_AJ3i9gmtEdLeopK5BO3X0LWRA; 1P_JAR=2020-4-9-2 '
     }
     url = 'https://trends.google.com/trends/api/explore?hl=zh-CN&tz=-480&req={{"comparisonItem":[{{"keyword":"{}",' \
-          '"geo":"{}","time":"now 7-d"}}],"category":0,"property":""}}&tz=-480'.format(keyword, country)
-    print(url)
+          '"geo":"{}","time":"today 3-m"}}],"category":0,"property":""}}&tz=-480'.format(keyword, country)
+    # print(url)
     r = requests.get(url, headers=headers)
     # print(r)
     data = json.loads(r.text[5:])
@@ -59,13 +62,7 @@ def google(keyword, country):
     # print(type(req))
     token = info['token']
     print("google:", token)
-    # print("REQ:", req)
-    # print(str(req).split('geo\': {'))
-    # country = str(req).split("geo': {")
-    # add_country = country[0] + "geo': {" + "\"country\":\"AR\"" + country[1]
-    # req['comparisonItem'][0]['geo'] = 'country\':\'AR'
-    # print("TOKEN:", token)
-    # print(req)
+
     url = 'https://trends.google.com/trends/api/widgetdata/multiline?hl=zh-CN&tz=-480&req={}&token={}&tz=-480'.format(
         req, token)
     # print(url.replace("\"", "'"))
@@ -80,8 +77,37 @@ def google(keyword, country):
             keyword = keyword
             print(vis_date, timestamp, value, keyword)
 
+            dict_lst.append(
+                {
+                    "关键字": keyword,
+                    "国家": country,
+                    "日期": vis_date,
+                    "时间戳": timestamp,
+                    "值": value
+                }
+            )
+    print(dict_lst)
+
+def save(file):
+    with open(file, "w", newline='', encoding='utf-8-sig') as f:
+        field_names = ["关键字", "国家", "日期", "时间戳", "值"]
+        f_csv = csv.DictWriter(f, fieldnames=field_names)
+        f_csv.writeheader()
+        for i in dict_lst:
+            f_csv.writerow(
+                {
+                    "关键字": i['关键字'],
+                    "国家": i['国家'],
+                    "日期": i['日期'],
+                    "时间戳": i['时间戳'],
+                    "值": i['值']
+                }
+            )
+
 
 if __name__ == '__main__':
-    coun = "AL"  # 国家
+    country = "US"  # 国家
     key = "iphone 12"  # 搜索关键字
-    google(key, coun)
+    google(key, country)
+
+    save('data/' + key + '谷歌趋势.csv')
