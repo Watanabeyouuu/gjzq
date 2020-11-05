@@ -28,9 +28,10 @@ import seaborn as sns
 from pandas import DataFrame, Series
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
+from scipy import optimize as op
 
 
-def ex1():
+def ex1_1():
     sales = pd.read_csv("data/ex1.csv")
     sales = pd.DataFrame(sales)
     # print(sales.iloc[:, 1:5])
@@ -86,7 +87,26 @@ def ex1():
     print('广告支出费需要达到:', pre_expense)
     pre_price = (265.32130 * 1.1 - b[1] * 114.18541 - b[2] * 157.00) / b[0]
     print('价格下降到到:', pre_price)
+    return "y = + b[0] + %sxX1 + %sxX2 + %sxX3" % (b[0], b[1], b[2]), score, pre_expense, pre_price
+
+
+def ex1_2():
+    c = np.array([192, 36, 12])
+    A_ub = np.array([[150000, 24000, 120000], [-150000, 0, 0], [-1, 0, 0], [0, -1, 0], [0, 0, -3]])
+    B_ub = np.array([1000000, -650000, -2, -3, 2])
+    # A_eq = np.array([[1, 1, 1]])
+    # B_eq = np.array([7])
+    x1 = (0, 999)
+    x2 = (0, 999)
+    x3 = (0, 999)
+    res = op.linprog(-c, A_ub, B_ub, bounds=(x1, x2, x3))
+    print(res)
+    print("---------------------------------------------")
+    print("最大值为:", -res.fun)
+    print("户外广告：", round(res.x[0]), "专业杂志：", round(res.x[1]), "其他形式：", round(res.x[2]))
+    return -res.fun
 
 
 if __name__ == '__main__':
-    ex1()
+    ex1_1()
+    # ex1_2()
