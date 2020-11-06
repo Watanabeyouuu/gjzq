@@ -40,10 +40,13 @@ def ex1_1():
     # 数据描述
     # print(s_data.describe())
     s_data.boxplot()
+    plt.savefig('img/boxplot.png')
     plt.show()
+
     # 相关系数0~0.3弱相关0.3~0.6中等程度相关0.6~1强相关
     # print(s_data.corr())
     sns.pairplot(s_data, x_vars=["", "price", "expenses", "production"], y_vars='sales', height=7, kind='reg')
+    plt.savefig("img/pair.jpg")
     plt.show()
 
     X_train, X_test, Y_train, Y_test = train_test_split(sales.iloc[:, 2:], sales.sales, train_size=.60)
@@ -70,7 +73,7 @@ def ex1_1():
     print(Y_pred)
     plt.plot(range(len(Y_pred)), Y_pred, 'b', label="predict")
     # 显示图像
-    # plt.savefig("predict.jpg")
+    plt.savefig("img/predict.jpg")
     plt.show()
     plt.figure()
     plt.plot(range(len(Y_pred)), Y_pred, 'b', label="predict")
@@ -78,6 +81,7 @@ def ex1_1():
     plt.legend(loc="upper right")  # 显示图中的标签
     plt.xlabel("the number of sales")
     plt.ylabel('value of sales')
+    plt.savefig("img/ROC.jpg")
     plt.show()
 
     # def predict(price, exp, pro):
