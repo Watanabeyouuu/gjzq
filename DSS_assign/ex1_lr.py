@@ -29,27 +29,32 @@ from pandas import DataFrame, Series
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from scipy import optimize as op
+from DSS_assign.read import read_ex1
 
 
 def ex1_1():
+    # sales = read_ex1.rdata_ex1()
+    # sales.columns = ['year', 'sales', 'price', 'expenses', 'production']
     sales = pd.read_csv("data/ex1.csv")
     sales = pd.DataFrame(sales)
+    print(sales)
     # print(sales.iloc[:, 1:5])
     s_data = sales.iloc[:, 1:5]
+    print(s_data)
     # print(sales.iloc[:, 2:])
     # 数据描述
     # print(s_data.describe())
     s_data.boxplot()
     plt.savefig('img/boxplot.png')
     plt.show()
-
+    sns.pairplot(s_data, x_vars=["sales", "price", "expenses", "production"], y_vars='sales', height=7, aspect=0.8)
     # 相关系数0~0.3弱相关0.3~0.6中等程度相关0.6~1强相关
     # print(s_data.corr())
-    sns.pairplot(s_data, x_vars=["", "price", "expenses", "production"], y_vars='sales', height=7, kind='reg')
+    sns.pairplot(s_data, x_vars=["sales", "price", "expenses", "production"], y_vars='sales', height=7, kind='reg')
     plt.savefig("img/pair.jpg")
     plt.show()
 
-    X_train, X_test, Y_train, Y_test = train_test_split(sales.iloc[:, 2:], sales.sales, train_size=.60)
+    X_train, X_test, Y_train, Y_test = train_test_split(sales.iloc[:, 2:], sales.sales, train_size=.70, random_state=42)
 
     # print("原始数据特征:", sales.iloc[:, 2:].shape,
     #       ",训练数据特征:", X_train.shape,

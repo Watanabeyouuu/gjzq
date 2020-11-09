@@ -25,10 +25,14 @@ from sklearn.decomposition import PCA
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from DSS_assign.read import read_ex2
 
 
 def ex2():
-    df = pd.read_csv('data/ex2.csv', header=0, encoding='utf-8')
+    print("connecting database...")
+    df = read_ex2.rdata_ex2()
+    # df = pd.read_csv('data/ex2.csv', header=0, encoding='utf-8')
+    # print(df)
     df1 = df.iloc[:, 1:]
     # print(df1)
     kmeans = KMeans(n_clusters=3, random_state=10).fit(df1)
@@ -55,15 +59,16 @@ def ex2():
     plt.plot(d[0], d[1], 'go')
     d = new_pca[new_df['jllable'] == 2]
     plt.plot(d[0], d[1], 'b*')
-    # plt.gcf().savefig('kmeans.png')
+    plt.gcf().savefig('img/kmeans.png')
     plt.show()
 
     waters = ('0', '1', '2')
     buy_number = [df_count_type[0], df_count_type[1], df_count_type[2]]
     plt.barh(waters, buy_number)  # 横放条形图函数 barh
     plt.title('Customer Type')
-
+    plt.savefig('img/kmeans_tx.png')
     plt.show()
+    return df_count_type[0], df_count_type[1], df_count_type[2]
 
 
 if __name__ == '__main__':
