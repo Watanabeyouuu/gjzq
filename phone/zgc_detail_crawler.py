@@ -438,15 +438,15 @@ if __name__ == '__main__':
     print("开始时间:", starttime)
 
     # 对应文件里的数据
-    # ori_file = "data/file_url.csv"  # 数据源
-    # aim_file = 'data/爬虫_中关村在线_匹配数据.csv'  # 目标文件
+    ori_file = "data/file_url.csv"  # 数据源
+    aim_file = 'data/爬虫_中关村在线_匹配数据.csv'  # 目标文件
 
     # ori_file = "data/all_url.csv"  # 数据源
     # aim_file = 'data/爬虫_中关村在线_所有数据.csv'  # 目标文件
 
-    # 新增数据
-    ori_file = "data/add_url.csv"  # 数据源
-    aim_file = 'data/爬虫_中关村在线_新增数据.csv'  # 目标文件
+    # # 新增数据
+    # ori_file = "data/add_url.csv"  # 数据源
+    # aim_file = 'data/爬虫_中关村在线_新增数据.csv'  # 目标文件
 
     r_data(ori_file)
     main()

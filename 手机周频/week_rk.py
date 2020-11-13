@@ -2,7 +2,7 @@ import csv
 from isoweek import Week
 import pymysql
 
-db = pymysql.connect("rm-uf6xl20b441n3f2mwoo.mysql.rds.aliyuncs.com", "biuser", "biusergjzq", "gjzq_db2",
+db = pymysql.connect("rm-uf6xl20b441n3f2mwoo.mysql.rds.aliyuncs.com", "yumh_db", "yumh123!@#", "bi_data",
                      charset='utf8')
 # db = pymysql.connect("localhost", "root", "123456", "week_mobile", charset='utf8')
 # 使用cursor()方法获取操作游标

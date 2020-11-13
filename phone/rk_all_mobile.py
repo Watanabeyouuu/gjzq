@@ -14,7 +14,7 @@ def zgc_mobile_rk(table_name, file_path, add_flag):
         data.append(one_line)
 
     # db = pymysql.connect("localhost", "root", "123456", "zgc", charset='utf8')
-    db = pymysql.connect("rm-uf6xl20b441n3f2mwoo.mysql.rds.aliyuncs.com", "biuser", "biusergjzq", "gjzq_db2",
+    db = pymysql.connect("rm-uf6xl20b441n3f2mwoo.mysql.rds.aliyuncs.com", "yumh_db", "yumh123!@#", "bi_data",
                          charset='utf8')
     # 使用cursor()方法获取操作游标
     cursor = db.cursor()

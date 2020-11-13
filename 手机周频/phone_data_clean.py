@@ -8,7 +8,7 @@ month_lst = []
 week_lst = []
 
 # 数据源
-io = "data/手机销量周频数据最终版(5).xlsx"
+io = "data/手机销量周频数据最终版(6).xlsx"
 # io = "/Users/hanxinhai/PycharmProjects/gjzq/data/1111.xlsx" # Test
 P_data = pd.read_excel(io, sheet_name=0)
 P_data.rename(columns={P_data.columns[1]: '1.1-1.5', P_data.columns[2]: '1.6-1.12', P_data.columns[3]: '1.13-1.19',
