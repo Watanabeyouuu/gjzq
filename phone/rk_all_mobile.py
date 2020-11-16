@@ -283,9 +283,9 @@ def zgc_mobile_rk(table_name, file_path, add_flag):
 if __name__ == '__main__':
 
     # 对应文件里的数据
-    # add_flag = 0
-    # table_name = "tab_mobile_file_info"
-    # file_path = 'data/爬虫_中关村在线_匹配数据.csv'
+    add_flag = 0
+    table_name = "tab_mobile_file_info"
+    file_path = 'data/爬虫_中关村在线_匹配数据.csv'
 
     # 所有数据
     # add_flag = 0
@@ -293,8 +293,8 @@ if __name__ == '__main__':
     # file_path = 'data/爬虫_中关村在线_所有数据.csv'
 
     # 新增数据
-    add_flag = 1
-    table_name = "tab_mobile_file_info"
-    file_path = 'data/爬虫_中关村在线_新增数据.csv'
+    # add_flag = 1
+    # table_name = "tab_mobile_file_info"
+    # file_path = 'data/爬虫_中关村在线_新增数据.csv'
 
     zgc_mobile_rk(table_name, file_path, add_flag)
