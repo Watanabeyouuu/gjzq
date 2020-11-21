@@ -38,6 +38,8 @@ headers = {
 }
 cookies = {'cookie': ''}
 name_lst = []
+data_lst = []
+all_data_lst = []
 
 
 def url_data(url):
@@ -52,22 +54,42 @@ def read_c():
     ship_name = df.loc[4:, :][2]
     for i in ship_name:
         name_lst.append(i)
-        # name_lst.append(one_line)  # 将读取的csv分行数据按行存入列表‘date’中
+
+
+def write_c():
+    with open('data/IMO_MMSI.csv', "w", newline='', encoding='utf-8-sig') as f:
+        field_names = ["Name", "IMO", "MMSI"]
+        f_csv = csv.DictWriter(f, fieldnames=field_names)
+        f_csv.writeheader()
+        for i in data_lst:
+            f_csv.writerow(
+                {
+                    "Name": i['Name'],
+                    "IMO": i['IMO'],
+                    "MMSI": i['MMSI'],
+
+                }
+            )
 
 
 def main():
+    read_c()
     for i in name_lst:
         try:
             soup = url_data('http://searchv3.shipxy.com/shipdata/search3.ashx?f=auto&kw=%s' % i)
             data = json.loads(soup.text)['ship'][0]
             IMO = data['i']
             MMSI = data['m']
-            print('NAME:', i, 'IMO:', IMO, 'MMSI:', MMSI)
+            # print('NAME:', i, 'IMO:', IMO, 'MMSI:', MMSI)
+            data_lst.append({
+                'Name': i,
+                'IMO': IMO,
+                'MMSI': MMSI
+            })
         except Exception as e:
             continue
+    write_c()
 
 
 if __name__ == '__main__':
-    read_c()
-    print(name_lst)
     main()
